@@ -11,21 +11,27 @@ class Cartes
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["cartes"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["cartes"])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(["cartes"])]
     private ?string $effet = null;
 
     #[ORM\Column]
+    #[Groups(["cartes"])]
     private ?int $attaque = null;
 
     #[ORM\Column]
+    #[Groups(["cartes"])]
     private ?int $defence = null;
 
     #[ORM\ManyToOne(inversedBy: 'nom')]
+    #[Groups(["cartes"])]
     private ?Rarete $rarete = null;
 
     public function getId(): ?int

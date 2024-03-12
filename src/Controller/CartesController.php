@@ -16,25 +16,12 @@ class CartesController extends AbstractController
     public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer): JsonResponse
     {
         $cartesList= $cartesRepository->findAll();
-        $jsonCardList = $serializer->serialize($cartesList, 'json');
-        return new JsonResponse($jsonCardList, 200, [], true);
+        $jsonCardList = $serializer->serialize($cartesList, 'json', ['groups' => 'cartes']);
+        return new JsonResponse($jsonCardList, Response::HTTP_OK, [], true);
 
     }
-        /*
-    #[Route('/api/cartes/{id}', name: 'app_cartes', methods: ['GET'])]
-    public function getCard(int $id, CartesRepository $cartesRepository, SerializerInterface $serializer): JsonResponse
-    {
-        $carte = $cartesRepository->find($id);
-        if($carte)
-        {
-            $jsonCard = $serializer->serialize($carte, 'json');
-            return new JsonResponse($jsonCard, 200, [], true);
-        }
-        return new JsonResponse('Card not found', 404);
-    }
-        */
 
-    #[Route('/api/cartes/{id}', name: 'app_cartes', methods: ['GET'])]
+    #[Route('/api/cartes/{id}', name: 'app_cartes_id', methods: ['GET'])]
     public function getCard(Cartes $carte , SerializerInterface $serializer): JsonResponse
     {
         $jsonCard= $serializer->serialize($carte, 'json');
@@ -42,3 +29,31 @@ class CartesController extends AbstractController
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+  #[Route('/api/cartes/{id}', name: 'app_cartes', methods: ['GET'])]
+  public function getCard(int $id, CartesRepository $cartesRepository, SerializerInterface $serializer): JsonResponse
+  {
+      $carte = $cartesRepository->find($id);
+      if($carte)
+      {
+          $jsonCard = $serializer->serialize($carte, 'json');
+          return new JsonResponse($jsonCard, 200, [], true);
+      }
+      return new JsonResponse('Card not found', 404);
+  }
+      */

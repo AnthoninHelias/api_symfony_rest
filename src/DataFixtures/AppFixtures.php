@@ -14,7 +14,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $listRarete = [];
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             // Création de l'auteur lui-même.
             $rarete = new Rarete();
             $rarete->setName('secret rare' . $i);
@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
         }
 
 
-        for ($i = 0; $i < 10000; $i++) {
+        for ($i = 0; $i < 100000; $i++) {
             $carte = new Cartes;
             $carte->setNom('Carte ' . $i);
             $carte->setEffet("sans effet");

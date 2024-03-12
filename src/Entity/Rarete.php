@@ -11,9 +11,11 @@ class Rarete
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["rarete"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(["rarete"])]
     private ?string $name = null;
 
     public function getId(): ?int
