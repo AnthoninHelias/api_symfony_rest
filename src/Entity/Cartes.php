@@ -26,7 +26,7 @@ class Cartes
     private ?int $defence = null;
 
     #[ORM\ManyToOne(inversedBy: 'nom')]
-    private ?Rareté $rareté = null;
+    private ?Rarete $rarete = null;
 
     public function getId(): ?int
     {
@@ -81,14 +81,14 @@ class Cartes
         return $this;
     }
 
-    public function getRareté(): ?Rareté
+    public function getRarete():?Rarete
     {
-        return $this->rareté;
+        return $this->rarete;
     }
 
-    public function setRareté(?Rareté $rareté): static
+    public function setRarete(?Rarete $rarete): static
     {
-        $this->rareté = $rareté;
+        $this->rarete = $rarete;
 
         return $this;
     }
