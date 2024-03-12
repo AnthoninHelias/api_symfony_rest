@@ -15,16 +15,14 @@ class AppFixtures extends Fixture
     {
         $listRarete = [];
         for ($i = 0; $i < 1000; $i++) {
-            // Création de l'auteur lui-même.
             $rarete = new Rarete();
             $rarete->setName('secret rare' . $i);
             $manager->persist($rarete);
-            // On sauvegarde l'auteur créé dans un tableau.
             $listRarete[] = $rarete;
         }
 
 
-        for ($i = 0; $i < 100000; $i++) {
+        for ($i = 0; $i < 1000000; $i++) {
             $carte = new Cartes;
             $carte->setNom('Carte ' . $i);
             $carte->setEffet("sans effet");
