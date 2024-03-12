@@ -1,0 +1,5 @@
+
+qphp:S100T"QRename function "getRaretÃ©" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(´¼ù™úÿÿÿÿ8÷ÛÑ—ã1
+lphp:S100Y"QRename function "setRaretÃ©" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(‡§‘×8÷ÛÑ—ã1
+qphp:S116"QRename this field "$raretÃ©" to match the regular expression ^[a-z][a-zA-Z0-9]*$.(«Ãç‚üÿÿÿÿ8÷ÛÑ—ã1
+rphp:S117Y"WRename this parameter "$raretÃ©" to match the regular expression ^[a-z_][a-zA-Z0-9_]*$.(‡§‘×8÷ÛÑ—ã1
