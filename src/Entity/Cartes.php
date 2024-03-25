@@ -31,7 +31,8 @@ class Cartes
     #[Groups(["cartes"])]
     private ?int $defence = null;
 
-    #[ORM\ManyToOne(inversedBy: 'nom')]
+    #[ORM\ManyToOne(targetEntity:Rarete::class)]
+    #[ORM\JoinColumn(onDelete:"CASCADE")]
     #[Groups(["cartes"])]
     private ?Rarete $rarete = null;
 

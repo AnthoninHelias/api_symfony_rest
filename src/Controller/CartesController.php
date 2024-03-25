@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CartesController extends AbstractController
@@ -71,8 +72,23 @@ class CartesController extends AbstractController
         return new JsonResponse($jsonBook, Response::HTTP_CREATED, ["Location" => $location], true);
     }
 
+    #[Route('/api/cartes/{id}', name:"updateCard", methods:['PUT'])]
 
+    public function updateCard(Request $request, SerializerInterface $serializer, Cartes $currentCard, EntityManagerInterface $em, RareteRepository $rareteRepository): JsonResponse
+    {
+        $updatedCard = $serializer->deserialize($request->getContent(),
+            Cartes::class,
+            'json',
+            [AbstractNormalizer::OBJECT_TO_POPULATE => $currentCard]);
 
+        $content = $request->toArray();
+        $idRarete = $content['idRarete'] ?? -1;
+        $updatedCard->setRarete($rareteRepository->find($idRarete));
+
+        $em->persist($updatedCard);
+        $em->flush();
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
 
 
 }

@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Rarete;
 use App\Repository\RareteRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use \Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class RareteController extends AbstractController
@@ -28,6 +32,48 @@ class RareteController extends AbstractController
         $jsonRarete= $serializer->serialize($rarete, 'json');
         return new JsonResponse($jsonRarete, Response::HTTP_OK, ['accept' => 'json'], true);
 
+    }
+
+
+
+    #[Route('/api/rarete/{id}', name: 'deleteRarete', methods: ['DELETE'])]
+    public function deleteRarete(Rarete $rarete , EntityManagerInterface $em): JsonResponse
+    {
+        $em->remove($rarete);
+        $em->flush();
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+
+    #[Route('/api/rarete', name:"createRarete", methods: ['POST'])]
+    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
+    {
+
+        $rarete = $serializer->deserialize($request->getContent(), Rarete::class, 'json');
+
+        $em->persist($rarete);
+        $em->flush();
+
+        $jsonBook = $serializer->serialize($rarete, 'json', ['groups' => 'rarete']);
+
+        $location = $urlGenerator->generate('createRarete', ['id' => $rarete->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        return new JsonResponse($jsonBook, Response::HTTP_CREATED, ["Location" => $location], true);
+    }
+
+    #[Route('/api/rarete/{id}', name:"updateRarete", methods:['PUT'])]
+
+    public function updateCard(Request $request, SerializerInterface $serializer, Rarete $currentRarete, EntityManagerInterface $em): JsonResponse
+    {
+        $updatedRarete = $serializer->deserialize($request->getContent(),
+            Rarete::class,
+            'json',
+            [AbstractNormalizer::OBJECT_TO_POPULATE => $currentRarete]);
+
+        $em->persist($updatedRarete);
+        $em->flush();
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
 }

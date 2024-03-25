@@ -9,6 +9,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RareteRepository::class)]
 class Rarete
 {
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="Cartes", inversedBy="nom")
+     * @ORM\JoinColumn(name="rarete_id", onDelete="CASCADE")
+     */
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
