@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Cartes;
 use App\Repository\CartesRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CartesController extends AbstractController
@@ -37,6 +39,22 @@ class CartesController extends AbstractController
         $em->flush();
 
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
+
+    #[Route('/api/cartes', name:"createCard", methods: ['POST'])]
+    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
+    {
+
+        $carte = $serializer->deserialize($request->getContent(), Cartes::class, 'json');
+        $em->persist($carte);
+        $em->flush();
+
+        $jsonBook = $serializer->serialize($carte, 'json', ['groups' => 'cartes']);
+
+        $location = $urlGenerator->generate('createCard', ['id' => $carte->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        return new JsonResponse($jsonBook, Response::HTTP_CREATED, ["Location" => $location], true);
     }
 
 }
