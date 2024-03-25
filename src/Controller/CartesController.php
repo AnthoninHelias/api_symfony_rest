@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Cartes;
 use App\Repository\CartesRepository;
+use App\Repository\RareteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\Response;
@@ -43,10 +44,23 @@ class CartesController extends AbstractController
 
 
     #[Route('/api/cartes', name:"createCard", methods: ['POST'])]
-    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
+    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository): JsonResponse
     {
 
         $carte = $serializer->deserialize($request->getContent(), Cartes::class, 'json');
+
+        // Récupération de l'ensemble des données envoyées sous forme de tableau
+        $content = $request->toArray();
+
+        // Récupération de l'idRarete. S'il n'est pas défini, alors on met -1 par défaut.
+        $idRarete = $content['idRarete'] ?? -1;
+
+        // On cherche la rareté qui correspond et on l'assigne au livre.
+        // Si "find" ne trouve pas la rareté, alors null sera retourné.
+        $carte->setRarete($rareteRepository->find($idRarete));
+
+
+
         $em->persist($carte);
         $em->flush();
 
@@ -56,6 +70,10 @@ class CartesController extends AbstractController
 
         return new JsonResponse($jsonBook, Response::HTTP_CREATED, ["Location" => $location], true);
     }
+
+
+
+
 
 }
 
