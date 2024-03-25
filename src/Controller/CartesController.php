@@ -16,7 +16,7 @@ class CartesController extends AbstractController
     public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer): JsonResponse
     {
         $cartesList= $cartesRepository->findAll();
-        $jsonCardList = $serializer->serialize($cartesList, 'json', ['groups' => 'cartes']);
+        $jsonCardList = $serializer->serialize($cartesList, 'json');
         return new JsonResponse($jsonCardList, Response::HTTP_OK, [], true);
 
     }

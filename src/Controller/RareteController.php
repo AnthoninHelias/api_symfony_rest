@@ -14,10 +14,11 @@ class RareteController extends AbstractController
     public function getRareteList(RareteRepository $rareteRepository, SerializerInterface $serializer): JsonResponse
     {
         $rareteList= $rareteRepository->findAll();
-        $jsonRareteList = $serializer->serialize($rareteList, 'json', ['groups' => 'rarete']);
+        $jsonRareteList = $serializer->serialize($rareteList, 'json');
         return new JsonResponse($jsonRareteList, Response::HTTP_OK, [], true);
 
     }
+
 
     #[Route('/api/rarete/{id}', name: 'app_rarete_id', methods: ['GET'])]
     public function getRarete(Rarete $rarete , SerializerInterface $serializer): JsonResponse
