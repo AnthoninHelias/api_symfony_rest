@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Cartes;
 use App\Repository\CartesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use \Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,6 +29,16 @@ class CartesController extends AbstractController
         return new JsonResponse($jsonCard, Response::HTTP_OK, ['accept' => 'json'], true);
 
     }
+
+    #[Route('/api/cartes/{id}', name: 'deleteCard', methods: ['DELETE'])]
+    public function deleteCard(Cartes $carte, EntityManagerInterface $em): JsonResponse
+    {
+        $em->remove($carte);
+        $em->flush();
+
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+
 }
 
 
