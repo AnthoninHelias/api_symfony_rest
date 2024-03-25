@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
         }
 
 
-        for ($i = 0; $i < 1000000; $i++) {
+        for ($i = 0; $i < 100000; $i++) {
             $carte = new Cartes;
             $carte->setNom('Carte ' . $i);
             $carte->setEffet("sans effet");

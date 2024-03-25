@@ -1,11 +1,0 @@
-
-_php:S103"KSplit this 125 characters long line (which is greater than 120 authorized).(Ž° Ê
-_php:S103"KSplit this 121 characters long line (which is greater than 120 authorized).(¹õì­
-dphp:S103"KSplit this 190 characters long line (which is greater than 120 authorized).(°×Ù­üÿÿÿÿ
-xphp:S101"_Rename class "getRaretÃ©RepositoryService" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.(ßÁÜòûÿÿÿÿ
-f	php:S4833"QReplace "include_once" with namespace import mechanism through the "use" keyword.(“˜ƒ£
-k	php:S4833"QReplace "include_once" with namespace import mechanism through the "use" keyword.(â¹“†ÿÿÿÿÿ
-f	php:S4833"QReplace "include_once" with namespace import mechanism through the "use" keyword.(åÝ‚ä
-f	php:S4833"QReplace "include_once" with namespace import mechanism through the "use" keyword.(Ž° Ê
-f	php:S4833"QReplace "include_once" with namespace import mechanism through the "use" keyword.(¹õì­
-k	php:S4833"QReplace "include_once" with namespace import mechanism through the "use" keyword.(ÄÙÊŽûÿÿÿÿ

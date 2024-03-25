@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RareteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RareteRepository::class)]
 class Rarete
