@@ -47,7 +47,7 @@ class RareteController extends AbstractController
 
 
     #[Route('/api/rarete', name:"createRarete", methods: ['POST'])]
-    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
+    public function createRarete(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
     {
 
         $rarete = $serializer->deserialize($request->getContent(), Rarete::class, 'json');
