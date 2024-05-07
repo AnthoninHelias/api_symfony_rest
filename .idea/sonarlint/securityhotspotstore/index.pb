@@ -42,3 +42,7 @@ S
 +src/EventSubscriber/ExceptionSubscriber.php,9/8/98b552675ec8e7385e08d6816044ebb8f04582fd
 C
 src/Entity/User.php,0/a/0a3e99b9da178509aeb5b3fa6f5dce46bc0eb8be
+E
+config/jwt/public.pem,9/c/9cac15255eb1d6c546b630f00785f1a61eeb4f13
+F
+config/jwt/private.pem,4/2/426d9dff3da661e835709ce3cae824679d5754da
