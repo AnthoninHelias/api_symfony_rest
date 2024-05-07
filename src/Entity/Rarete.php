@@ -24,6 +24,7 @@ class Rarete
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(["rarete"])]
+    #[Assert\NotBlank(message: "Le nom de la rareté est obligatoire")]
     private ?string $name = null;
 
     public function getId(): ?int

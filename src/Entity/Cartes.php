@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CartesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CartesRepository::class)]
 class Cartes
@@ -17,6 +18,8 @@ class Cartes
 
     #[ORM\Column(length: 255)]
     #[Groups(["cartes"])]
+    #[Assert\NotBlank(message: "Le nom de la carte est obligatoire")]
+    #[Assert\Length(min: 1, max: 255, minMessage: "Le nom doit faire au moins {{ limit }} caractères", maxMessage: "Le nom ne peut pas faire plus de {{ limit }} caractères")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -25,10 +28,12 @@ class Cartes
 
     #[ORM\Column]
     #[Groups(["cartes"])]
+    #[Assert\NotBlank(message: "L'attaque est obligatoire")]
     private ?int $attaque = null;
 
     #[ORM\Column]
     #[Groups(["cartes"])]
+    #[Assert\NotBlank(message: "La défense est obligatoire")]
     private ?int $defence = null;
 
     #[ORM\ManyToOne(targetEntity:Rarete::class)]
@@ -40,6 +45,7 @@ class Cartes
     {
         return $this->id;
     }
+
 
     public function getNom(): ?string
     {
@@ -65,6 +71,7 @@ class Cartes
         return $this;
     }
 
+    #
     public function getAttaque(): ?int
     {
         return $this->attaque;
@@ -81,6 +88,7 @@ class Cartes
     {
         return $this->defence;
     }
+
 
     public function setDefence(int $defence): static
     {
@@ -100,4 +108,6 @@ class Cartes
 
         return $this;
     }
+
+
 }

@@ -38,3 +38,5 @@ S
 #src/Controller/RareteController.php,7/a/7a15ce5ef01d67729b69d8d3ad345535c65cea77
 6
 .myEnv,d/9/d9c67e609c05359d41edfe73ab4b2ece70014f6d
+[
++src/EventSubscriber/ExceptionSubscriber.php,9/8/98b552675ec8e7385e08d6816044ebb8f04582fd

@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CartesController extends AbstractController
 {
@@ -45,11 +46,15 @@ class CartesController extends AbstractController
 
 
     #[Route('/api/cartes', name:"createCard", methods: ['POST'])]
-    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository): JsonResponse
+    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository, ValidatorInterface $validator): JsonResponse
     {
 
         $carte = $serializer->deserialize($request->getContent(), Cartes::class, 'json');
 
+        $errors = $validator->validate($carte);
+        if ($errors->count() > 0) {
+            return new JsonResponse($serializer->serialize($errors, 'json'), Response::HTTP_BAD_REQUEST, [], true);
+        }
         // Récupération de l'ensemble des données envoyées sous forme de tableau
         $content = $request->toArray();
 

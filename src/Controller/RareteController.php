@@ -13,6 +13,7 @@ use \Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class RareteController extends AbstractController
 {
@@ -47,10 +48,15 @@ class RareteController extends AbstractController
 
 
     #[Route('/api/rarete', name:"createRarete", methods: ['POST'])]
-    public function createRarete(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
+    public function createRarete(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, ValidatorInterface $validator): JsonResponse
     {
 
         $rarete = $serializer->deserialize($request->getContent(), Rarete::class, 'json');
+
+        $errors = $validator->validate($rarete);
+        if ($errors->count() > 0) {
+            return new JsonResponse($serializer->serialize($errors, 'json'), Response::HTTP_BAD_REQUEST, [], true);
+        }
 
         $em->persist($rarete);
         $em->flush();
@@ -73,7 +79,7 @@ class RareteController extends AbstractController
 
         $em->persist($updatedRarete);
         $em->flush();
-        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT );
     }
 
 }
