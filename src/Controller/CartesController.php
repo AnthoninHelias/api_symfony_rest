@@ -12,20 +12,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class CartesController extends AbstractController
 {
-    #[Route('/api/cartes', name: 'app_cartes', methods: ['GET'])]
-    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer): JsonResponse
-    {
-        $cartesList= $cartesRepository->findAll();
-        $jsonCardList = $serializer->serialize($cartesList, 'json');
-        return new JsonResponse($jsonCardList, Response::HTTP_OK, [], true);
-
-    }
+//    #[Route('/api/cartes', name: 'app_cartes', methods: ['GET'])]
+//    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer): JsonResponse
+//    {
+//        $cartesList= $cartesRepository->findAll();
+//        $jsonCardList = $serializer->serialize($cartesList, 'json');
+//        return new JsonResponse($jsonCardList, Response::HTTP_OK, [], true);
+//
+//    }
 
     #[Route('/api/cartes/{id}', name: 'app_cartes_id', methods: ['GET'])]
     public function getCard(Cartes $carte , SerializerInterface $serializer): JsonResponse
@@ -46,6 +47,7 @@ class CartesController extends AbstractController
 
 
     #[Route('/api/cartes', name:"createCard", methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour créer une carte')]
     public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository, ValidatorInterface $validator): JsonResponse
     {
 
@@ -95,6 +97,17 @@ class CartesController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
+    #[Route('/api/cartes', name: 'app_cartes', methods: ['GET'])]
+    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer, Request $request): JsonResponse
+    {
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit', 3);
+        $cartesList = $cartesRepository->findAllWithPagination($page, $limit);
+
+        $jsonCardList = $serializer->serialize($cartesList, 'json');
+
+        return new JsonResponse($jsonCardList, Response::HTTP_OK, [], true);
+    }
 
 }
 
