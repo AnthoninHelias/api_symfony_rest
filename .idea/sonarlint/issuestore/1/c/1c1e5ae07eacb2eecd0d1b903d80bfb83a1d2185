@@ -1,4 +1,4 @@
 
-m	php:S1192"QDefine a constant instead of duplicating this literal "/api/cartes/{id}" 3 times.(òå²¡8’ÍÔõ1
-:php:S125"Remove this commented out code.(èáå«8ŸÈÄ½ù1
-;php:S125€"Remove this commented out code.(–±Ù8’ÍÔõ1
+m	php:S1192!"QDefine a constant instead of duplicating this literal "/api/cartes/{id}" 3 times.(òå²¡8Çğ½ù1
+:php:S125"Remove this commented out code.(èáå«8‚Çğ½ù1
+;php:S125ˆ"Remove this commented out code.(–±Ù8‚Çğ½ù1

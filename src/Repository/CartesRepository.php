@@ -24,6 +24,10 @@ class CartesRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('b')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
+
+        $query = $qb->getQuery();
+        $query->setFetchMode(Cartes::class, "rarete", \Doctrine\ORM\Mapping\ClassMetadata::FETCH_EAGER);
+
         return $qb->getQuery()->getResult();
     }
 

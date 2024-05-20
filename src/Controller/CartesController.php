@@ -16,6 +16,8 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class CartesController extends AbstractController
 {
@@ -37,8 +39,9 @@ class CartesController extends AbstractController
     }
 
     #[Route('/api/cartes/{id}', name: 'deleteCard', methods: ['DELETE'])]
-    public function deleteCard(Cartes $carte, EntityManagerInterface $em): JsonResponse
+    public function deleteCard(Cartes $carte, EntityManagerInterface $em, TagAwareCacheInterface $cachePool): JsonResponse
     {
+        $cachePool->invalidateTags(["cartesCache"]);
         $em->remove($carte);
         $em->flush();
 
@@ -98,14 +101,19 @@ class CartesController extends AbstractController
     }
 
     #[Route('/api/cartes', name: 'app_cartes', methods: ['GET'])]
-    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer, Request $request): JsonResponse
+    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer, Request $request, TagAwareCacheInterface $cachePool): JsonResponse
     {
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 3);
-        $cartesList = $cartesRepository->findAllWithPagination($page, $limit);
+
+
+        $idCache = "getCardList-" . $page . "-" . $limit;
+        $cartesList = $cachePool->get($idCache, function (ItemInterface $item) use ($cartesRepository, $page, $limit) {
+            $item->tag("cartesCache");
+            return $cartesRepository->findAllWithPagination($page, $limit);
+        });
 
         $jsonCardList = $serializer->serialize($cartesList, 'json');
-
         return new JsonResponse($jsonCardList, Response::HTTP_OK, [], true);
     }
 

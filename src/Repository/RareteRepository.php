@@ -21,6 +21,32 @@ class RareteRepository extends ServiceEntityRepository
         parent::__construct($registry, Rarete::class);
     }
 
+    public function findAllWithPagination($page, $limit) {
+        $qb = $this->createQueryBuilder('b')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        $query = $qb->getQuery();
+        $query->setFetchMode(Rarete::class, "cartes", \Doctrine\ORM\Mapping\ClassMetadata::FETCH_EAGER);
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //    /**
 //     * @return Rarete[] Returns an array of Rarete objects
 //     */

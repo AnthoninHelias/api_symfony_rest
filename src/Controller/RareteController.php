@@ -14,13 +14,25 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 class RareteController extends AbstractController
 {
     #[Route('/api/rarete', name: 'app_rarete', methods: ['GET'])]
-    public function getRareteList(RareteRepository $rareteRepository, SerializerInterface $serializer): JsonResponse
+    public function getRareteList(RareteRepository $rareteRepository, SerializerInterface $serializer, TagAwareCacheInterface $cachePool , Request $request): JsonResponse
     {
-        $rareteList= $rareteRepository->findAll();
+
+        $page = $request->get('page', 1);
+        $limit = $request->get('limit', 3);
+
+
+        $idCache = "getCardList-" . $page . "-" . $limit;
+        $rareteList = $cachePool->get($idCache, function (ItemInterface $item) use ($rareteRepository, $page, $limit) {
+            $item->tag("cartesCache");
+            return $rareteRepository->findAllWithPagination($page, $limit);
+        });
+
         $jsonRareteList = $serializer->serialize($rareteList, 'json',['groups' => 'rarete']);
         return new JsonResponse($jsonRareteList, Response::HTTP_OK, [], true);
 
@@ -38,8 +50,9 @@ class RareteController extends AbstractController
 
 
     #[Route('/api/rarete/{id}', name: 'deleteRarete', methods: ['DELETE'])]
-    public function deleteRarete(Rarete $rarete , EntityManagerInterface $em): JsonResponse
+    public function deleteRarete(Rarete $rarete , EntityManagerInterface $em, TagAwareCacheInterface $cachePool): JsonResponse
     {
+        $cachePool->invalidateTags(["rareteCache"]);
         $em->remove($rarete);
         $em->flush();
 
