@@ -39,7 +39,7 @@ class AppFixtures extends Fixture
 
 
         $listRarete = [];
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $rarete = new Rarete();
             $rarete->setName('secret rare' . $i);
             $manager->persist($rarete);
@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         }
 
 
-        for ($i = 0; $i < 100000; $i++) {
+        for ($i = 0; $i < 1000; $i++) {
             $carte = new Cartes;
             $carte->setNom('Carte ' . $i);
             $carte->setEffet("sans effet");

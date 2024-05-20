@@ -46,3 +46,12 @@ E
 config/jwt/public.pem,9/c/9cac15255eb1d6c546b630f00785f1a61eeb4f13
 F
 config/jwt/private.pem,4/2/426d9dff3da661e835709ce3cae824679d5754da
+M
+config/packages/security.yaml,c/5/c5f941b4d4e9404f23935164fabdd261abb68e93
+L
+config/packages/routing.yaml,0/0/001fdc7418679b6419e44b1142ab051819764ece
+B
+config/routes.yaml,b/a/baef02989dedf0ec859f7bce087a69f29bef2b72
+:
+
+.env.local,1/f/1fa30fea3e9ae270a3c38a6113a3689d8987d108
