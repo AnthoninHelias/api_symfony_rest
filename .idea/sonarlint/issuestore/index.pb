@@ -55,3 +55,11 @@ B
 :
 
 .env.local,1/f/1fa30fea3e9ae270a3c38a6113a3689d8987d108
+S
+#config/packages/jms_serializer.yaml,e/4/e429ea3a53a3737f487c4a8348fac038f22ad81a
+R
+"config/packages/ms_serializer.yaml,9/9/99e080f9684f88f9f06e93664c5eea6416a31f5a
+T
+$config/packages/bazinga_hateoas.yaml,3/7/372ebc528d0aaf6d83cb9cf1e83daf1628794a75
+D
+config/services.yaml,8/7/87042d1f46b57381244d70e7a42feeb7710727dc

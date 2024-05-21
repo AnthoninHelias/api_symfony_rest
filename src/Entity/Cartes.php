@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\CartesRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CartesRepository::class)]
 class Cartes
