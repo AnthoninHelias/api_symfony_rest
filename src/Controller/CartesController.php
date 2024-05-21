@@ -23,12 +23,15 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 
 class CartesController extends AbstractController
 {
 
 
     #[Route('/api/cartes/{id}', name: 'app_cartes_id', methods: ['GET'])]
+    #[OA\Tag(name: 'Cartes')]
     public function getCard(Cartes $carte , SerializerInterface $serializer , VersioningService $versioningService): JsonResponse
     {
 
@@ -44,6 +47,7 @@ class CartesController extends AbstractController
     }
 
     #[Route('/api/cartes/{id}', name: 'deleteCard', methods: ['DELETE'])]
+    #[OA\Tag(name: 'Cartes')]
     public function deleteCard(Cartes $carte, EntityManagerInterface $em, TagAwareCacheInterface $cachePool): JsonResponse
     {
         $cachePool->invalidateTags(["cartesCache"]);
@@ -56,6 +60,7 @@ class CartesController extends AbstractController
 
     #[Route('/api/cartes', name:"createCard", methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour créer une carte')]
+    #[OA\Tag(name: 'Cartes')]
     public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository, ValidatorInterface $validator , VersioningService $versioningService): JsonResponse
     {
 
@@ -97,6 +102,7 @@ class CartesController extends AbstractController
     }
 
     #[Route('/api/cartes/{id}', name: "updateCard", methods: ['PUT'])]
+    #[OA\Tag(name: 'Cartes')]
     public function updateCard(
         Request $request,
         SerializerInterface $serializer,
@@ -137,6 +143,26 @@ class CartesController extends AbstractController
     }
 
     #[Route('/api/cartes', name: 'app_cartes', methods: ['GET'])]
+    #[OA\Response(
+        response: 200,
+        description: 'Retourne la liste des livres',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Cartes::class, groups: ['cartes'])))
+    )]
+    #[OA\Parameter(
+        name: 'page',
+        description: 'La page que l\'on veut récupérer',
+        in: 'query',
+        schema: new OA\Schema(type: 'int')
+    )]
+    #[OA\Parameter(
+        name: 'limit',
+        description: 'Le nombre d\'éléments que l\'on veut récupérer',
+        in: 'query',
+        schema: new OA\Schema(type: 'int')
+    )]
+    #[OA\Tag(name: 'Cartes')]
     public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer, Request $request, TagAwareCacheInterface $cachePool ,  VersioningService $versioningService): JsonResponse
     {
         $page = $request->get('page', 1);

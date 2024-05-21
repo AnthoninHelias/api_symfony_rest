@@ -18,10 +18,33 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
+
 
 class RareteController extends AbstractController
 {
     #[Route('/api/rarete', name: 'app_rarete', methods: ['GET'])]
+    #[OA\Response(
+        response: 200,
+        description: 'Retourne la liste des livres',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Rarete::class, groups: ['rarete'])))
+    )]
+    #[OA\Parameter(
+        name: 'page',
+        description: 'La page que l\'on veut récupérer',
+        in: 'query',
+        schema: new OA\Schema(type: 'int')
+    )]
+    #[OA\Parameter(
+        name: 'limit',
+        description: 'Le nombre d\'éléments que l\'on veut récupérer',
+        in: 'query',
+        schema: new OA\Schema(type: 'int')
+    )]
+    #[OA\Tag(name: 'Rarete')]
     public function getRareteList(RareteRepository $rareteRepository, SerializerInterface $serializer, TagAwareCacheInterface $cachePool , Request $request): JsonResponse
     {
 
@@ -44,6 +67,7 @@ class RareteController extends AbstractController
 
 
     #[Route('/api/rarete/{id}', name: 'app_rarete_id', methods: ['GET'])]
+    #[OA\Tag(name: 'Rarete')]
     public function getRarete(Rarete $rarete , SerializerInterface $serializer): JsonResponse
     {
         $jsonRarete= $serializer->serialize($rarete, 'json');
@@ -54,6 +78,7 @@ class RareteController extends AbstractController
 
 
     #[Route('/api/rarete/{id}', name: 'deleteRarete', methods: ['DELETE'])]
+    #[OA\Tag(name: 'Rarete')]
     public function deleteRarete(Rarete $rarete , EntityManagerInterface $em, TagAwareCacheInterface $cachePool): JsonResponse
     {
         $cachePool->invalidateTags(["rareteCache"]);
@@ -65,6 +90,7 @@ class RareteController extends AbstractController
 
 
     #[Route('/api/rarete', name:"createRarete", methods: ['POST'])]
+    #[OA\Tag(name: 'Rarete')]
     public function createRarete(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, ValidatorInterface $validator): JsonResponse
     {
 
@@ -88,6 +114,7 @@ class RareteController extends AbstractController
     }
 
     #[Route('/api/rarete/{id}', name: 'updateRarete', methods: ['PUT'])]
+    #[OA\Tag(name: 'Rarete')]
     public function updateRarete(
         Request $request,
         SerializerInterface $serializer,

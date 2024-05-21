@@ -2,7 +2,8 @@ nelmio_api_doc:
     documentation:
         info:
             title: carte YUGIHO
-            description: Une API d'OpenClassrooms  faites par Anthonin Helias sur le theme de YUGIHO , mon  lien linkedin "https://www.linkedin.com/in/anthonin-helias-170959239/"
+            description: Une API d'OpenClassrooms faite par Anthonin Helias sur le thème de YUGIHO , [Anthonin Helias  linkedin](https://www.linkedin.com/in/anthonin-helias-170959239/)
+
             version: 2.0.0
         paths:
             /api/login_check:
