@@ -6,6 +6,39 @@ use App\Repository\CartesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use Hateoas\Configuration\Annotation as Hateoas;
+
+/**
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "app_cartes_id",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="cartes")
+ * )
+ *
+ *
+ * @Hateoas\Relation(
+ *      "delete",
+ *      href = @Hateoas\Route(
+ *          "deleteCard",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="cartes", excludeIf = "expr(not is_granted('ROLE_ADMIN'))"),
+ * )
+ *
+ * @Hateoas\Relation(
+ *      "update",
+ *      href = @Hateoas\Route(
+ *          "updateCard",
+ *          parameters = { "id" = "expr(object.getId())" },
+ *      ),
+ *      exclusion = @Hateoas\Exclusion(groups="cartes", excludeIf = "expr(not is_granted('ROLE_ADMIN'))"),
+ * )
+ *
+ */
+
 
 #[ORM\Entity(repositoryClass: CartesRepository::class)]
 class Cartes
@@ -40,6 +73,10 @@ class Cartes
     #[ORM\JoinColumn(onDelete:"CASCADE")]
     #[Groups(["cartes"])]
     private ?Rarete $rarete = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(["cartes"])]
+    private ?int $niveau = null;
 
     public function getId(): ?int
     {
@@ -105,6 +142,18 @@ class Cartes
     public function setRarete(?Rarete $rarete): static
     {
         $this->rarete = $rarete;
+
+        return $this;
+    }
+
+    public function getNiveau(): ?int
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(?int $niveau): static
+    {
+        $this->niveau = $niveau;
 
         return $this;
     }
