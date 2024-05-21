@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Cartes;
 use App\Repository\CartesRepository;
 use App\Repository\RareteRepository;
+use App\Service\VersioningService;
 use Doctrine\ORM\EntityManagerInterface;
 
 
@@ -28,11 +29,15 @@ class CartesController extends AbstractController
 
 
     #[Route('/api/cartes/{id}', name: 'app_cartes_id', methods: ['GET'])]
-    public function getCard(Cartes $carte , SerializerInterface $serializer): JsonResponse
+    public function getCard(Cartes $carte , SerializerInterface $serializer , VersioningService $versioningService): JsonResponse
     {
 
+        $version = $versioningService->getVersion();
         $context = SerializationContext::create()->setGroups(['cartes']);
+        $context->setVersion($version);
         $jsonCard = $serializer->serialize($carte, 'json', $context);
+
+
 
         return new JsonResponse($jsonCard, Response::HTTP_OK, ['accept' => 'json'], true);
 
@@ -51,7 +56,7 @@ class CartesController extends AbstractController
 
     #[Route('/api/cartes', name:"createCard", methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour créer une carte')]
-    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository, ValidatorInterface $validator): JsonResponse
+    public function createCard(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator, RareteRepository $rareteRepository, ValidatorInterface $validator , VersioningService $versioningService): JsonResponse
     {
 
         $carte = $serializer->deserialize($request->getContent(), Cartes::class, 'json');
@@ -79,7 +84,12 @@ class CartesController extends AbstractController
 
 
         $context = SerializationContext::create()->setGroups(['cartes']);
+        $version = $versioningService->getVersion();
+        $context->setVersion($version);
+
         $jsonCard = $serializer->serialize($carte, 'json', $context);
+
+
 
         $location = $urlGenerator->generate('createCard', ['id' => $carte->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
@@ -92,7 +102,8 @@ class CartesController extends AbstractController
         SerializerInterface $serializer,
         Cartes $currentCard,
         EntityManagerInterface $em,
-        RareteRepository $rareteRepository
+        RareteRepository $rareteRepository,
+        VersioningService $versioningService
     ): JsonResponse {
         // Création du contexte de désérialisation
         $deserializationContext = DeserializationContext::create();
@@ -126,7 +137,7 @@ class CartesController extends AbstractController
     }
 
     #[Route('/api/cartes', name: 'app_cartes', methods: ['GET'])]
-    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer, Request $request, TagAwareCacheInterface $cachePool): JsonResponse
+    public function getCardList(CartesRepository $cartesRepository, SerializerInterface $serializer, Request $request, TagAwareCacheInterface $cachePool ,  VersioningService $versioningService): JsonResponse
     {
         $page = $request->get('page', 1);
         $limit = $request->get('limit', 3);
@@ -139,6 +150,8 @@ class CartesController extends AbstractController
         });
 
         $context = SerializationContext::create()->setGroups(['cartes']);
+        $version = $versioningService->getVersion();
+        $context->setVersion($version);
         $jsonCardList = $serializer->serialize($cartesList, 'json', $context);
 
 

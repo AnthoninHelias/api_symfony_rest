@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CartesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Since;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 use Hateoas\Configuration\Annotation as Hateoas;
@@ -76,6 +77,7 @@ class Cartes
 
     #[ORM\Column(nullable: true)]
     #[Groups(["cartes"])]
+    #[Since("2.0")]
     private ?int $niveau = null;
 
     public function getId(): ?int

@@ -53,6 +53,7 @@ class AppFixtures extends Fixture
             $carte->setEffet("sans effet");
             $carte->setAttaque(1000);
             $carte->setDefence(1000);
+            $carte->setNiveau(6);
             $carte->setRarete($listRarete[array_rand($listRarete)]);
             $manager->persist($carte);
         }

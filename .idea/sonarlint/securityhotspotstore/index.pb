@@ -63,3 +63,5 @@ T
 $config/packages/bazinga_hateoas.yaml,3/7/372ebc528d0aaf6d83cb9cf1e83daf1628794a75
 D
 config/services.yaml,8/7/87042d1f46b57381244d70e7a42feeb7710727dc
+Q
+!src/Service/VersioningService.php,0/2/02bfff83bda4a7cd0fc6eabc383d12bfe9b04e98
