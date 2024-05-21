@@ -69,3 +69,5 @@ S
 #config/packages/nelmio_api_doc.yaml,0/f/0fc6bae2fb1ee325644e97f5ac7691a7dac63753
 Q
 !config/routes/nelmio_api_doc.yaml,c/4/c492e1b236f15ca9a6894e947c2031e14d8cdfe2
+X
+(src/Controller/ExternalApiController.php,2/6/26cfdde8a2086e1215d365cb134246ad0493df0a
