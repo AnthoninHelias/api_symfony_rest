@@ -73,3 +73,7 @@ X
 (src/Controller/ExternalApiController.php,2/6/26cfdde8a2086e1215d365cb134246ad0493df0a
 O
 config/routes/api_platform.yaml,a/5/a5e4e90407c4d7ed0b28c28e9f8c25e070846ffe
+Q
+!config/packages/api_platform.yaml,f/c/fc9b6d0b83d663d538e4b7ee5f9224da2f5c15eb
+L
+src/OpenApi/JwtDecorator.php,4/1/4117ff88a991f657f66b0d3322fd67277c30a94e

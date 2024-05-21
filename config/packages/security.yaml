@@ -47,6 +47,8 @@ security:
         - { path: ^/api/doc, roles: PUBLIC_ACCESS }
         - { path: ^/apip, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/apip/, roles: IS_AUTHENTICATED_FULLY }
+
 
 
 when@test:
