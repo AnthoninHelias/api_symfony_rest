@@ -8,6 +8,7 @@ use JMS\Serializer\Annotation\Since;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 use Hateoas\Configuration\Annotation as Hateoas;
+use ApiPlatform\Metadata\ApiResource;
 
 /**
  * @Hateoas\Relation(
@@ -42,6 +43,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
 
 
 #[ORM\Entity(repositoryClass: CartesRepository::class)]
+#[ApiResource]
 class Cartes
 {
     #[ORM\Id]
