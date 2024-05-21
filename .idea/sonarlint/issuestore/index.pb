@@ -65,3 +65,7 @@ D
 config/services.yaml,8/7/87042d1f46b57381244d70e7a42feeb7710727dc
 Q
 !src/Service/VersioningService.php,0/2/02bfff83bda4a7cd0fc6eabc383d12bfe9b04e98
+S
+#config/packages/nelmio_api_doc.yaml,0/f/0fc6bae2fb1ee325644e97f5ac7691a7dac63753
+Q
+!config/routes/nelmio_api_doc.yaml,c/4/c492e1b236f15ca9a6894e947c2031e14d8cdfe2
