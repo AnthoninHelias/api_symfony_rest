@@ -1,6 +1,6 @@
 # api_symfony_rest
 
-Ce projet a été réalisé au cours de mon BACHELOR CSI.
+Ce projet a été réalisé au cours de mon BACHELOR CSI. Il a été réalisé en respect les régles de l'architecture REST de niveau 3.
 Un systeme d'auhtentification par token JWT a été mis en place
 
 # Installation des librairies
